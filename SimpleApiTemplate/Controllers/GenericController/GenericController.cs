@@ -32,6 +32,7 @@ public class GenericController<T> : ControllerBase where T : BaseEntity
     }
 
     [HttpPost("Create")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<T>> Post(T entity)
     {
         var createdEntity = await _repository.AddAsync(entity);
