@@ -1,7 +1,10 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SimpleApiTemplate.Data;
+using SimpleApiTemplate.Services;
 using SimpleApiTemplate.Services.GenericRepository;
 using SimpleApiTemplate.Services.Interfaces;
 using SimpleApiTemplate.Services.Repositorys;
@@ -30,15 +33,27 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddAuthorization();
+
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);  
 builder.Services.AddControllers();
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedEmail = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.User.RequireUniqueEmail = true;
+    
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
