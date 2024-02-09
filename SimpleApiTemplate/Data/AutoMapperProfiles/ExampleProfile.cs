@@ -8,7 +8,7 @@ public class ExampleProfile : Profile
 {
     public ExampleProfile()
     {
-        CreateMap<ExampleEntity, CreateExampleDto>();
+        CreateMap<ExampleEntity, ExampleDto>().ReverseMap();
 
     }
     

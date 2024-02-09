@@ -2,7 +2,7 @@
 
 namespace SimpleApiTemplate.Data.Dtos;
 
-public class CreateExampleDto : BaseDto
+public class ExampleDto : BaseDto
 {
     
     [Required]

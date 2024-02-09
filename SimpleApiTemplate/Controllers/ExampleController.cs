@@ -6,9 +6,9 @@ using SimpleApiTemplate.Services.Interfaces;
 
 namespace SimpleApiTemplate.Controllers;
 
-public class ExampleController : GenericController<ExampleEntity>
+public class ExampleController : GenericController<ExampleEntity, ExampleDto>
 {
-    public ExampleController( IExampleRepository repository, IHttpContextAccessor httpContextAccessor) : base( repository, httpContextAccessor)
+    public ExampleController( IExampleRepository repository, IMapper mapper,  IHttpContextAccessor httpContextAccessor) : base( repository, mapper, httpContextAccessor)
     {
         
     }
