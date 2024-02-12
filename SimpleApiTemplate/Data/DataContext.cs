@@ -5,7 +5,7 @@ using SimpleApiTemplate.Models;
 
 namespace SimpleApiTemplate.Data;
 
-public class DataContext : IdentityDbContext
+public class DataContext : IdentityDbContext<User>
 {
     
     public DbSet<ExampleEntity> Examples { get; set; }
