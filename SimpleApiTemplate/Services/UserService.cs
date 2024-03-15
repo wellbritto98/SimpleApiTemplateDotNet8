@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using AutoMapper;
@@ -168,4 +169,39 @@ public class UserService
             _userManager.UpdateAsync(user);
         }
     }
+    
+    public async Task<ApiResponse> RefreshToken()
+{
+    var userIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(x => x.Type == "id");
+    var userEmailClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email);
+
+    if (userIdClaim == null || userEmailClaim == null)
+    {
+        return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+    }
+
+    var user = await _userManager.FindByIdAsync(userIdClaim.Value);
+    if (user == null)
+    {
+        return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+    }
+
+    var refreshToken = GenerateRefreshToken();
+    SetRefreshTokenInCookie(refreshToken);
+
+    var newToken = _jwtService.GenerateToken(new JwtDto { Email = userEmailClaim.Value, Id = userIdClaim.Value });
+    _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", newToken, new CookieOptions
+    {
+        HttpOnly = true,
+        SameSite = SameSiteMode.None,
+        Secure = true
+    });
+
+    return new ApiResponse
+    {
+        Success = true,
+        Message = "Token atualizado com sucesso",
+        Data = new { Token = newToken, RefreshToken = refreshToken }
+    };
+}
 }

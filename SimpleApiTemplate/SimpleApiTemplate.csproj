@@ -40,4 +40,9 @@
       <Folder Include="Controllers\Mail\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="SignalClient\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="SignalClient\obj\SignalClient.csproj.nuget.dgspec.json" />
+    </ItemGroup>
+
 </Project>
