@@ -11,6 +11,7 @@
    <li><strong>PostgreSQL Database Support</strong>: Configured to use PostgreSQL, providing a robust and scalable database solution.</li>
    <li><strong>AutoMapper Integration</strong>: Simplifies the task of transforming data between types, enhancing code maintainability and readability.</li>
    <li><strong>Identity Framework Integration</strong>: Supports user authentication and authorization, making it suitable for applications requiring user management.</li>
+   <li><strong>Email Services.</li>
 </ul>
 <h3>Getting Started</h3>
 <h4>Prerequisites</h4>
