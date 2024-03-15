@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ using SimpleApiTemplate.Models;
 namespace SimpleApiTemplate.Services;
 
 public class UserService
-{   
+{
     private IEmailSender _emailSender;
     private IMapper _mapper;
     private UserManager<User> _userManager;
@@ -20,7 +21,8 @@ public class UserService
     private JwtService _jwtService;
 
     public UserService(IMapper mapper, UserManager<User> userManager,
-        SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor, IEmailSender emailSender, HttpClient httpClient, JwtService jwtService)
+        SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor, IEmailSender emailSender,
+        HttpClient httpClient, JwtService jwtService)
     {
         _mapper = mapper;
         _userManager = userManager;
@@ -69,7 +71,7 @@ public class UserService
                 return new ApiResponse
                     { Success = false, Message = $"Falha ao cadastrar usuário: {string.Join(", ", errors)}" };
             }
-            
+
             var endpoint = "https://localhost:7225/resendConfirmationEmail";
             var payload = new { email = user.Email };
             var json = JsonConvert.SerializeObject(payload);
@@ -92,19 +94,14 @@ public class UserService
                     Success = false,
                     Message = "Falha ao enviar email de confirmação"
                 };
-            } 
-            
-
-
-
+            }
         }
     }
-    
+
     //logar usuario
-    
+
     public async Task<ApiResponse> LoginUser(LoginUserDto dto)
     {
-        
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
         {
@@ -126,12 +123,49 @@ public class UserService
                 SameSite = SameSiteMode.None,
                 Secure = true
             });
-            return new ApiResponse { Success = true, Message = "Usuário logado com sucesso", Data = token};
+
+            var refreshToken = GenerateRefreshToken();
+            SetRefreshTokenInCookie(refreshToken);
+
+            return new ApiResponse
+            {
+                Success = true, Message = "Usuário logado com sucesso",
+                Data = new { Token = token, RefreshToken = refreshToken }
+            };
         }
         else
         {
             return new ApiResponse { Success = false, Message = "Falha ao logar usuário" };
         }
     }
-    
+
+    private RefreshToken GenerateRefreshToken()
+    {
+        var refreshToken = new RefreshToken
+        {
+            Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+            Expired = DateTime.Now.AddDays(7)
+        };
+        return refreshToken;
+    }
+
+    private void SetRefreshTokenInCookie(RefreshToken refreshToken)
+    {
+        var user = _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User).Result;
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true,
+            Expires = refreshToken.Expired
+        };
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+        if (user != null)
+        {
+            user.RefreshToken = refreshToken.Token;
+            user.TokenCreatedAt = refreshToken.CreatedAt;
+            user.TokenExpiredAt = refreshToken.Expired;
+            _userManager.UpdateAsync(user);
+        }
+    }
 }

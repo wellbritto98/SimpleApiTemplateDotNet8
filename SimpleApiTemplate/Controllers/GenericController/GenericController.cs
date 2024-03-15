@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleApiTemplate.Models;
 using SimpleApiTemplate.Services.GenericRepository;
@@ -7,13 +8,15 @@ namespace SimpleApiTemplate.Controllers.GenericController;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class GenericController<T1, T2> : ControllerBase where T1 : BaseEntity where T2 : class
 {
     private readonly IGenericRepository<T1> _repository;
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public GenericController(IGenericRepository<T1> repository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    public GenericController(IGenericRepository<T1> repository, IMapper mapper,
+        IHttpContextAccessor httpContextAccessor)
     {
         _repository = repository;
         _mapper = mapper;
@@ -21,6 +24,7 @@ public class GenericController<T1, T2> : ControllerBase where T1 : BaseEntity wh
     }
 
     [HttpGet("GetAll")]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<T2>>> GetAll()
     {
         var entities = await _repository.GetAllAsync();
@@ -28,6 +32,7 @@ public class GenericController<T1, T2> : ControllerBase where T1 : BaseEntity wh
     }
 
     [HttpGet("Get/{id}")]
+    [Authorize]
     public async Task<ActionResult<T2>> Get(int id)
     {
         var entity = await _repository.GetByIdAsync(id);
@@ -36,6 +41,7 @@ public class GenericController<T1, T2> : ControllerBase where T1 : BaseEntity wh
     }
 
     [HttpPost("Create")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<T2>> Post(T2 dto)
     {
@@ -45,16 +51,18 @@ public class GenericController<T1, T2> : ControllerBase where T1 : BaseEntity wh
     }
 
     [HttpPut("Update/{id}")]
+    [Authorize]
     public async Task<ActionResult> Put(int id, T2 dto)
     {
         var entity = _mapper.Map<T1>(dto);
-        entity.Id = id; 
+        entity.Id = id;
 
         await _repository.UpdateAsync(entity);
         return NoContent();
     }
 
     [HttpDelete("Delete/{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         await _repository.DeleteAsync(id);

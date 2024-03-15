@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Asn1.Ocsp;
 using SimpleApiTemplate.Data.Dtos;
 
 namespace SimpleApiTemplate.Services;
@@ -29,7 +30,7 @@ namespace SimpleApiTemplate.Services;
 
          var token = new JwtSecurityToken
          (
-             expires: DateTime.Now.AddDays(1),
+             expires: DateTime.Now.AddHours(1),
              claims: claims,
              signingCredentials: signingCredentials
          );
@@ -63,6 +64,8 @@ namespace SimpleApiTemplate.Services;
              return false;
          }
      }
+
+     
      
      
 
