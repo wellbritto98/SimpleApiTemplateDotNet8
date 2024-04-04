@@ -38,6 +38,7 @@
 
     <ItemGroup>
       <Folder Include="Controllers\Mail\" />
+      <Folder Include="Data\Dtos\ExampleDtos\" />
     </ItemGroup>
 
     <ItemGroup>
