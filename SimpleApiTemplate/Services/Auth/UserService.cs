@@ -34,36 +34,38 @@ public class UserService
         _jwtService = jwtService;
     }
 
-    //cadastrar usuario
     public async Task<ApiResponse> RegisterUser(RegisterUserDto dto)
     {
-        User user = _mapper.Map<User>(dto);
-        user.UserName = user.Email;
-        user.Email = user.Email.ToLower();
-        user.RegisteredAt = DateTime.UtcNow;
-        var today = DateTime.Today;
-        var age = today.Year - user.DataNascimento.Year;
-
-        // Ajusta a idade se o aniversário ainda não ocorreu este ano
-        if (user.DataNascimento.Date > today.AddYears(-age)) age--;
-
-        if (age < 18)
+        try
         {
-            return new ApiResponse { Success = false, Message = "Usuário menor de idade!" };
-        }
+            User user = _mapper.Map<User>(dto);
+            user.UserName = user.Email;
+            user.Email = user.Email.ToLower();
+            user.RegisteredAt = DateTime.UtcNow;
 
+            var today = DateTime.Today;
+            var age = today.Year - user.DataNascimento.Year;
 
-        if (!dto.AgreeTerms)
-        {
-            return new ApiResponse
+            // Ajusta a idade se o aniversário ainda não ocorreu este ano
+            if (user.DataNascimento.Date > today.AddYears(-age))
             {
-                Success = false,
-                Message = "Infelizmente só podemos cadastrar usuários que aceitam os termos de uso."
-            };
-        }
+                age--;
+            }
 
-        else
-        {
+            if (age < 18)
+            {
+                return new ApiResponse { Success = false, Message = "Usuário menor de idade!" };
+            }
+
+            if (!dto.AgreeTerms)
+            {
+                return new ApiResponse
+                {
+                    Success = false,
+                    Message = "Infelizmente só podemos cadastrar usuários que aceitam os termos de uso."
+                };
+            }
+
             IdentityResult resultado = await _userManager.CreateAsync(user, dto.Password);
 
             if (!resultado.Succeeded)
@@ -96,6 +98,17 @@ public class UserService
                     Message = "Falha ao enviar email de confirmação"
                 };
             }
+        }
+        catch (Exception ex)
+        {
+            // Log do erro
+            Console.WriteLine($"Erro ao cadastrar usuário: {ex.Message}");
+            Console.WriteLine(ex.ToString());
+            return new ApiResponse
+            {
+                Success = false,
+                Message = "Ocorreu um erro ao processar a solicitação. Por favor, tente novamente mais tarde."
+            };
         }
     }
 
@@ -169,39 +182,39 @@ public class UserService
             _userManager.UpdateAsync(user);
         }
     }
-    
+
     public async Task<ApiResponse> RefreshToken()
-{
-    var userIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(x => x.Type == "id");
-    var userEmailClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email);
-
-    if (userIdClaim == null || userEmailClaim == null)
     {
-        return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+        var userIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(x => x.Type == "id");
+        var userEmailClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email);
+
+        if (userIdClaim == null || userEmailClaim == null)
+        {
+            return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+        }
+
+        var user = await _userManager.FindByIdAsync(userIdClaim.Value);
+        if (user == null)
+        {
+            return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+        }
+
+        var refreshToken = GenerateRefreshToken();
+        SetRefreshTokenInCookie(refreshToken);
+
+        var newToken = _jwtService.GenerateToken(new JwtDto { Email = userEmailClaim.Value, Id = userIdClaim.Value });
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", newToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true
+        });
+
+        return new ApiResponse
+        {
+            Success = true,
+            Message = "Token atualizado com sucesso",
+            Data = new { Token = newToken, RefreshToken = refreshToken }
+        };
     }
-
-    var user = await _userManager.FindByIdAsync(userIdClaim.Value);
-    if (user == null)
-    {
-        return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
-    }
-
-    var refreshToken = GenerateRefreshToken();
-    SetRefreshTokenInCookie(refreshToken);
-
-    var newToken = _jwtService.GenerateToken(new JwtDto { Email = userEmailClaim.Value, Id = userIdClaim.Value });
-    _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", newToken, new CookieOptions
-    {
-        HttpOnly = true,
-        SameSite = SameSiteMode.None,
-        Secure = true
-    });
-
-    return new ApiResponse
-    {
-        Success = true,
-        Message = "Token atualizado com sucesso",
-        Data = new { Token = newToken, RefreshToken = refreshToken }
-    };
-}
 }
