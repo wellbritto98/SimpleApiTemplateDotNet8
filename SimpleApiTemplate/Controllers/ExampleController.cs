@@ -6,7 +6,7 @@ using SimpleApiTemplate.Services.Interfaces;
 
 namespace SimpleApiTemplate.Controllers;
 
-public class ExampleController : GenericController<ExampleEntity, ExampleDto>
+public class ExampleController : GenericController<ExampleEntity, InsertExampleDto, ReadExampleDto, UpdateExampleDto>
 {
     public ExampleController( IExampleRepository repository, IMapper mapper,  IHttpContextAccessor httpContextAccessor) : base( repository, mapper, httpContextAccessor)
     {

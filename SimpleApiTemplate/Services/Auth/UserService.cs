@@ -44,6 +44,7 @@ public class UserService
         var today = DateTime.Today;
         var age = today.Year - user.DataNascimento.Year;
 
+
         // Ajusta a idade se o aniversário ainda não ocorreu este ano
         if (user.DataNascimento.Date > today.AddYears(-age)) age--;
 
@@ -82,12 +83,14 @@ public class UserService
 
             if (response.IsSuccessStatusCode)
             {
+                await _userManager.AddToRoleAsync(user, "player");
                 return new ApiResponse
                 {
                     Success = true,
                     Message = "Usuário cadastrado com sucesso! Verifique sua conta no link que enviamos por email"
                 };
             }
+
             else
             {
                 return new ApiResponse
@@ -117,12 +120,14 @@ public class UserService
 
         if (resultado.Succeeded)
         {
-            var token = _jwtService.GenerateToken(new JwtDto { Email = user.Email, Id = user.Id });
+            var userRole = await _userManager.GetRolesAsync(user);
+            var token = _jwtService.GenerateToken(new JwtDto { Email = user.Email, Id = user.Id, Role = userRole[0] });
             _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None,
-                Secure = true
+                Secure = true,
+                Expires = DateTime.UtcNow.AddHours(24)
             });
 
             var refreshToken = GenerateRefreshToken();
@@ -169,39 +174,41 @@ public class UserService
             _userManager.UpdateAsync(user);
         }
     }
-    
+
     public async Task<ApiResponse> RefreshToken()
-{
-    var userIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(x => x.Type == "id");
-    var userEmailClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email);
-
-    if (userIdClaim == null || userEmailClaim == null)
     {
-        return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+        var userIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(x => x.Type == "id");
+        var userEmailClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email);
+
+        if (userIdClaim == null || userEmailClaim == null)
+        {
+            return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+        }
+
+        var user = await _userManager.FindByIdAsync(userIdClaim.Value);
+        if (user == null)
+        {
+            return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
+        }
+
+        var refreshToken = GenerateRefreshToken();
+        SetRefreshTokenInCookie(refreshToken);
+        var userRole = await _userManager.GetRolesAsync(user);
+        var newToken = _jwtService.GenerateToken(new JwtDto
+            { Email = userEmailClaim.Value, Id = userIdClaim.Value, Role = userRole[0] });
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", newToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true,
+            Expires = DateTime.UtcNow.AddHours(24)
+        });
+
+        return new ApiResponse
+        {
+            Success = true,
+            Message = "Token atualizado com sucesso",
+            Data = new { Token = newToken, RefreshToken = refreshToken }
+        };
     }
-
-    var user = await _userManager.FindByIdAsync(userIdClaim.Value);
-    if (user == null)
-    {
-        return new ApiResponse { Success = false, Message = "Usuário não encontrado" };
-    }
-
-    var refreshToken = GenerateRefreshToken();
-    SetRefreshTokenInCookie(refreshToken);
-
-    var newToken = _jwtService.GenerateToken(new JwtDto { Email = userEmailClaim.Value, Id = userIdClaim.Value });
-    _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", newToken, new CookieOptions
-    {
-        HttpOnly = true,
-        SameSite = SameSiteMode.None,
-        Secure = true
-    });
-
-    return new ApiResponse
-    {
-        Success = true,
-        Message = "Token atualizado com sucesso",
-        Data = new { Token = newToken, RefreshToken = refreshToken }
-    };
-}
 }

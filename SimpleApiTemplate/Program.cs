@@ -21,6 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.EnableAnnotations();
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
     In = ParameterLocation.Header,
@@ -57,6 +58,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<User>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<DataContext>();
 
 
@@ -80,6 +82,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
     
 });
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

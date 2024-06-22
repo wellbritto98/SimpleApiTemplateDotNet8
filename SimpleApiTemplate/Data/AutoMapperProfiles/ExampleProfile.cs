@@ -8,8 +8,9 @@ public class ExampleProfile : Profile
 {
     public ExampleProfile()
     {
-        CreateMap<ExampleEntity, ExampleDto>().ReverseMap();
-
+        CreateMap<ExampleEntity, InsertExampleDto>().ReverseMap();
+        CreateMap<ExampleEntity, ReadExampleDto>().ReverseMap();
+        CreateMap<ExampleEntity, UpdateExampleDto>().ReverseMap();
     }
     
 }

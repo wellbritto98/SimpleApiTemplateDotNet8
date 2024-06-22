@@ -8,5 +8,7 @@ public class JwtDto
     public string Email { get; set; }
     [Required]
     public string Id { get; set; }
-    
+    [Required]
+    public string Role { get; set; }
+
 }
