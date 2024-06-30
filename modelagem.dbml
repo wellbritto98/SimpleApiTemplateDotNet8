@@ -1,0 +1,29 @@
+//MMORPG Web Text Based Game - Modelagem de Dados - Web API
+
+Table user {
+    id varchar(255) [pk, increment] //GUID
+    name varchar(255) // not null
+    email varchar(255) // not null
+    phone varchar(15) // not null 
+    birthDate date // not null
+    password varchar(255) // not null
+    role varchar // not null
+    email_verified boolean // not null
+    created_at timestamp
+}
+
+Table character {
+    id varchar(255) [pk, increment] //GUID
+    name varchar(255) // not null
+    surname varchar(255) // not null
+    age int // not null
+    birthDate date // not null date of creation
+    strength int // not null
+    dexterity int // not null
+    constitution int // not null
+    intelligence int // not null
+    wisdom int // not null
+    charisma int // not null
+    avatar varchar(255) // not null image link
+    user_id varchar(255) [ref: > user.id] //GUID
+}
