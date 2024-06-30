@@ -54,19 +54,13 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero, 
     };
 });
-
 builder.Services.AddAuthorization();
-
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<DataContext>();
-
-
-
 builder.Services.AddHttpClient();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
-
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<UserService>();
