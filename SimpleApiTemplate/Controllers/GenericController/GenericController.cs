@@ -3,21 +3,22 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SimpleApiTemplate.Models;
-using SimpleApiTemplate.Services.GenericRepository;
+using SimpleApiTemplateDotNet8.Models.Base;
+using SimpleApiTemplateDotNet8.Repository.GenericRepository;
 using Swashbuckle.AspNetCore.Annotations;
+using SimpleApiTemplateDotNet8.Models;
 
-namespace SimpleApiTemplate.Controllers.GenericController;
+
+namespace SimpleApiTemplate.Web.Controllers.GenericController;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 //T1 = Entity, T2= InsertDTO, T3 = ReadDTO, T4 = UpdateDTO
 public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseEntity where T2 : class where T3 : class where T4 : class
 {
     protected readonly IGenericRepository<T1> _repository;
-    private readonly IMapper _mapper;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    protected readonly IMapper _mapper;
+    protected readonly IHttpContextAccessor _httpContextAccessor;
 
     public GenericController(IGenericRepository<T1> repository, IMapper mapper,
         IHttpContextAccessor httpContextAccessor)
@@ -28,7 +29,6 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     }
 
     [HttpGet("GetAll")]
-    [Authorize]
     [SwaggerOperation(
     Summary = "Retorna uma lista de items"
     )]
@@ -47,7 +47,6 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     }
 
     [HttpGet("Find")]
-    [Authorize]
     [SwaggerOperation(
         Summary = "Retorna uma lista de items filtrados pelos campos desejados e operadores informados",
         Description = "Espera um JSON com os filtros. Exemplo: {\"field@operator\":\"value@type\", \"field2@operator2\":\"value2@type2\",...}" +
@@ -68,7 +67,6 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     }
 
     [HttpGet("Get/{id}")]
-    [Authorize]
     [SwaggerOperation(
     Summary = "Retorna um item pelo ID",
     Description = "Espera um ID no formato JSON com as chaves primárias. Exemplo: {\"key1\":\"value\", \"key2\":value2,...}, as chaves devem estar na mesma ordem do banco de dados"
@@ -119,7 +117,6 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     }
 
     [HttpPost("Create")]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [SwaggerOperation(
     Summary = "Insere um novo item no banco de dados",
@@ -139,7 +136,6 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     }
 
     [HttpPut("Update")]
-    [Authorize]
     [SwaggerOperation(
     Summary = "Altera informações de um item pelo ID",
     Description = "Espera um ID no formato JSON com as chaves primárias. Exemplo: {\"key1\":\"value\", \"key2\":value2,...}, e um objeto do mesmo tipo com as informações a serem modificadas."
@@ -150,9 +146,9 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
         {
             // Desserializa o JSON em um dicionário
             var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(id);
-             
+
             // Pega os valores do dicionário e coloca em um array
-            Object[] keyValues = dict.Values.ToArray();
+            object[] keyValues = dict.Values.ToArray();
             var entity = await _repository.GetByIdAsync(keyValues);
 
             var mappedEntity = _mapper.Map(dto, entity);
@@ -167,7 +163,6 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     }
 
     [HttpDelete("Delete")]
-    [Authorize]
     [SwaggerOperation(
     Summary = "Deleta um item pelo ID",
     Description = "Espera um ID no formato JSON com as chaves primárias. Exemplo: {\"key1\":\"value\", \"key2\":value2,...}, as chaves devem estar na mesma ordem do banco de dados"
@@ -179,7 +174,7 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
             var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(id);
 
             // Pega os valores do dicionário e coloca em um array
-            Object[] keyValues = dict.Values.ToArray();
+            object[] keyValues = dict.Values.ToArray();
             await _repository.DeleteAsync(keyValues);
             return Ok("Deletado com sucesso");
         }

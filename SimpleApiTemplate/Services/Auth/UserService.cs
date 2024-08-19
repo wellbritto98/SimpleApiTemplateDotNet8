@@ -6,10 +6,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Newtonsoft.Json;
-using SimpleApiTemplate.Data.Dtos;
-using SimpleApiTemplate.Models;
+using SimpleApiTemplate.Web.Dtos.Auth;
+using SimpleApiTemplateDotNet8.Models.ApiResponse;
+using SimpleApiTemplateDotNet8.Models.Auth;
 
-namespace SimpleApiTemplate.Services;
+
+namespace SimpleApiTemplate.Web.Services.Auth;
 
 public class UserService
 {
@@ -72,7 +74,7 @@ public class UserService
             {
                 var errors = resultado.Errors.Select(e => e.Description);
                 return new ApiResponse
-                    { Success = false, Message = $"Falha ao cadastrar usuário: {string.Join(", ", errors)}" };
+                { Success = false, Message = $"Falha ao cadastrar usuário: {string.Join(", ", errors)}" };
             }
 
             var endpoint = "https://localhost:7225/resendConfirmationEmail";
@@ -147,7 +149,8 @@ public class UserService
 
             return new ApiResponse
             {
-                Success = true, Message = "Usuário logado com sucesso",
+                Success = true,
+                Message = "Usuário logado com sucesso",
                 Data = new { Token = token, RefreshToken = refreshToken }
             };
         }
@@ -207,7 +210,7 @@ public class UserService
         SetRefreshTokenInCookie(refreshToken);
         var userRole = await _userManager.GetRolesAsync(user);
         var newToken = _jwtService.GenerateToken(new JwtDto
-            { Email = userEmailClaim.Value, Id = userIdClaim.Value, Role = userRole[0] });
+        { Email = userEmailClaim.Value, Id = userIdClaim.Value, Role = userRole[0] });
         _httpContextAccessor.HttpContext.Response.Cookies.Append("jwt", newToken, new CookieOptions
         {
             HttpOnly = true,

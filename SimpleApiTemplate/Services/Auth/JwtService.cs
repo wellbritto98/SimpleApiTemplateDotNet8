@@ -3,9 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Asn1.Ocsp;
-using SimpleApiTemplate.Data.Dtos;
+using SimpleApiTemplate.Web.Dtos.Auth;
 
-namespace SimpleApiTemplate.Services;
+namespace SimpleApiTemplate.Web.Services.Auth;
 
 public class JwtService
 {
@@ -66,5 +66,5 @@ public class JwtService
         }
     }
 
-    
+
 }

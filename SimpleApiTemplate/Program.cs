@@ -7,11 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SimpleApiTemplate.Data;
-using SimpleApiTemplate.Models;
-using SimpleApiTemplate.Services;
-using SimpleApiTemplate.Services.GenericRepository;
-using SimpleApiTemplate.Services.Interfaces;
-using SimpleApiTemplate.Services.Repositorys;
+using SimpleApiTemplate.Web.Services.Auth;
+using SimpleApiTemplate.Web.Services.SmtpService;
+using SimpleApiTemplateDotNet8.Models.Auth;
+using SimpleApiTemplateDotNet8.Repository.GenericRepository;
+using SimpleApiTemplateDotNet8.Repository.Interfaces;
+using SimpleApiTemplateDotNet8.Repository.Repositorys;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);

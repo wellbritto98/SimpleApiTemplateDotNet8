@@ -6,9 +6,8 @@ using MimeKit;
 using MimeKit.Text;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using SimpleApiTemplate.Data.Dtos;
 
-namespace SimpleApiTemplate.Services;
+namespace SimpleApiTemplate.Web.Services.SmtpService;
 
 public class EmailSender : IEmailSender
 {
@@ -24,9 +23,9 @@ public class EmailSender : IEmailSender
         var emailMessage = new MimeMessage();
 
 
-        emailMessage.From.Add(new MailboxAddress(_emailSettings.Username, _emailSettings.Username)); 
-        emailMessage.To.Add(new MailboxAddress(toEmail, toEmail)); 
-    
+        emailMessage.From.Add(new MailboxAddress(_emailSettings.Username, _emailSettings.Username));
+        emailMessage.To.Add(new MailboxAddress(toEmail, toEmail));
+
         emailMessage.Subject = subject;
         emailMessage.Body = new TextPart(TextFormat.Html)
         {

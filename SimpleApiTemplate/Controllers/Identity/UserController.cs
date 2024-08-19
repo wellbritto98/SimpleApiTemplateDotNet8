@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimpleApiTemplate.Data.Dtos;
-using SimpleApiTemplate.Services;
+using SimpleApiTemplate.Web.Dtos.Auth;
+using SimpleApiTemplate.Web.Services.Auth;
 
-namespace SimpleApiTemplate.Controllers;
+namespace SimpleApiTemplate.Web.Controllers.Identity;
 
 public class UserController : ControllerBase
 {
@@ -15,7 +15,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("RegisterUser")]
-    
+
     public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
     {
         if (!ModelState.IsValid)
@@ -30,7 +30,7 @@ public class UserController : ControllerBase
         }
         return BadRequest(result);
     }
-    
+
     [HttpPost("LoginUser")]
     public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
     {
@@ -46,7 +46,7 @@ public class UserController : ControllerBase
         }
         return BadRequest(result);
     }
-    
+
     [HttpPost("RefreshToken")]
     [Authorize]
     public async Task<IActionResult> RefreshToken()
