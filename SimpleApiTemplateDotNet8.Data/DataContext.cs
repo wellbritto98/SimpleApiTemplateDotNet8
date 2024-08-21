@@ -5,7 +5,7 @@ using SimpleApiTemplateDotNet8.Models;
 using SimpleApiTemplateDotNet8.Models.Auth;
 
 
-namespace SimpleApiTemplate.Data;
+namespace SimpleApiTemplateDotNet8.Data;
 
 public class DataContext : IdentityDbContext<User>
 {
@@ -18,12 +18,12 @@ public class DataContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var hasher = new PasswordHasher<IdentityUser>();
-        
+
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
-            { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "Admin", NormalizedName = "ADMIN".ToUpper() });
+        { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "Admin", NormalizedName = "ADMIN".ToUpper() });
         modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
-            { Id = "2c5e174e-3b0e-446f-86af-483d56fd7211", Name = "Player", NormalizedName = "PLAYER".ToUpper() });
+        { Id = "2c5e174e-3b0e-446f-86af-483d56fd7211", Name = "Player", NormalizedName = "PLAYER".ToUpper() });
 
 
         for (int i = 1; i <= 12; i++)
@@ -41,12 +41,12 @@ public class DataContext : IdentityDbContext<User>
                 Nickname = $"User {i}",
                 RegisteredAt = DateTime.Now,
                 DataNascimento = new DateTime(1980, 1, 1),
-                
+
             };
 
             modelBuilder.Entity<User>().HasData(user);
-            
-            
+
+
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
                 {
@@ -62,7 +62,7 @@ public class DataContext : IdentityDbContext<User>
                 Nickname = $"Example{i}Nickname",
                 IsConfirmed = true
             };
-            
+
             modelBuilder.Entity<ExampleEntity>().HasData(example);
         }
     }

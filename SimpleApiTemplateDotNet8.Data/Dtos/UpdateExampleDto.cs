@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SimpleApiTemplate.Web.Dtos;
+namespace SimpleApiTemplateDotNet8.Data.Dtos;
 
-public class ReadExampleDto : BaseDto
+public class UpdateExampleDto : BaseDto
 {
 
     [Required]

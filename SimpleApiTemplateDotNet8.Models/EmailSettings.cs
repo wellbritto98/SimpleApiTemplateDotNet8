@@ -1,4 +1,4 @@
-﻿namespace SimpleApiTemplate.Web.Services.SmtpService;
+﻿namespace SimpleApiTemplateDotNet8.Models;
 
 public class EmailSettings
 {

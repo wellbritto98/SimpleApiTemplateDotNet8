@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SimpleApiTemplate.Web.Dtos.Auth;
+namespace SimpleApiTemplateDotNet8.Data.Dtos.Auth;
 
 public class JwtDto
 {

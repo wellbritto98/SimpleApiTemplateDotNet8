@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using SimpleApiTemplate.Web.Dtos;
 using SimpleApiTemplateDotNet8.Models;
 
-namespace SimpleApiTemplate.Web.Dtos.AutoMapperProfiles;
+namespace SimpleApiTemplateDotNet8.Data.Dtos.AutoMapperProfiles;
 
 public class ExampleProfile : Profile
 {

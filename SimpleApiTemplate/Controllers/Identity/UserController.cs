@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimpleApiTemplate.Web.Dtos.Auth;
-using SimpleApiTemplate.Web.Services.Auth;
+
+using SimpleApiTemplateDotNet8.Data.Dtos.Auth;
+using SimpleApiTemplateDotNet8.Services.Interfaces;
 
 namespace SimpleApiTemplate.Web.Controllers.Identity;
 
 public class UserController : ControllerBase
 {
-    private UserService _userService;
+    private IUserService _userService;
 
-    public UserController(UserService userService)
+    public UserController(IUserService userService)
     {
         _userService = userService;
     }

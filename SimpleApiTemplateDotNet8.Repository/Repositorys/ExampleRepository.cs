@@ -1,4 +1,4 @@
-﻿using SimpleApiTemplate.Data;
+﻿using SimpleApiTemplateDotNet8.Data;
 using SimpleApiTemplateDotNet8.Models;
 using SimpleApiTemplateDotNet8.Repository.GenericRepository;
 using SimpleApiTemplateDotNet8.Repository.Interfaces;

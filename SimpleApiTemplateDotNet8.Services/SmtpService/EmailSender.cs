@@ -6,8 +6,9 @@ using MimeKit;
 using MimeKit.Text;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using SimpleApiTemplateDotNet8.Models;
 
-namespace SimpleApiTemplate.Web.Services.SmtpService;
+namespace SimpleApiTemplateDotNet8.Services.SmtpService;
 
 public class EmailSender : IEmailSender
 {

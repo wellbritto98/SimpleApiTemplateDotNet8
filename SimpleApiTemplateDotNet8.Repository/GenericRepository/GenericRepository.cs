@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using SimpleApiTemplate.Data;
+using SimpleApiTemplateDotNet8.Data;
 using SimpleApiTemplateDotNet8.Models.Base;
 using System.Reflection;
 

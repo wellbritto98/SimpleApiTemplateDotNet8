@@ -3,17 +3,19 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Newtonsoft.Json;
-using SimpleApiTemplate.Web.Dtos.Auth;
+using SimpleApiTemplateDotNet8.Data.Dtos.Auth;
 using SimpleApiTemplateDotNet8.Models.ApiResponse;
 using SimpleApiTemplateDotNet8.Models.Auth;
+using SimpleApiTemplateDotNet8.Services.Interfaces;
 
 
-namespace SimpleApiTemplate.Web.Services.Auth;
+namespace SimpleApiTemplateDotNet8.Services.Auth;
 
-public class UserService
+public class UserService : IUserService
 {
     private IEmailSender _emailSender;
     private IMapper _mapper;
@@ -21,11 +23,11 @@ public class UserService
     private SignInManager<User> _signInManager;
     private IHttpContextAccessor _httpContextAccessor;
     private HttpClient _httpClient;
-    private JwtService _jwtService;
+    private IJwtService _jwtService;
 
     public UserService(IMapper mapper, UserManager<User> userManager,
         SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor, IEmailSender emailSender,
-        HttpClient httpClient, JwtService jwtService)
+        HttpClient httpClient, IJwtService jwtService)
     {
         _mapper = mapper;
         _userManager = userManager;

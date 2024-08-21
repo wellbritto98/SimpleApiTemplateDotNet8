@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SimpleApiTemplate.Data;
-using SimpleApiTemplate.Web.Services.Auth;
-using SimpleApiTemplate.Web.Services.SmtpService;
+using SimpleApiTemplateDotNet8.Data;
+using SimpleApiTemplateDotNet8.Models;
 using SimpleApiTemplateDotNet8.Models.Auth;
 using SimpleApiTemplateDotNet8.Repository.GenericRepository;
 using SimpleApiTemplateDotNet8.Repository.Interfaces;
 using SimpleApiTemplateDotNet8.Repository.Repositorys;
+using SimpleApiTemplateDotNet8.Services;
+using SimpleApiTemplateDotNet8.Services.Auth;
+using SimpleApiTemplateDotNet8.Services.GenericService;
+using SimpleApiTemplateDotNet8.Services.Interfaces;
+using SimpleApiTemplateDotNet8.Services.SmtpService;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +37,7 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 var secretKey = builder.Configuration["JwtConfig:Secret"];
+
 
 //using POstgreSQL
 builder.Services.AddDbContext<DataContext>(options =>
@@ -61,12 +66,14 @@ builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<DataContext>();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<JwtService>();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);  
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IExampleService, ExampleService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.Configure<IdentityOptions>(options =>
 {

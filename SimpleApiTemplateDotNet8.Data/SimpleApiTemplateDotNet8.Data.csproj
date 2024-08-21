@@ -11,10 +11,18 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1" />
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
   </ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleApiTemplateDotNet8.Models\SimpleApiTemplateDotNet8.Models.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dtos\ExampleDtos\" />
 	</ItemGroup>
 
 </Project>

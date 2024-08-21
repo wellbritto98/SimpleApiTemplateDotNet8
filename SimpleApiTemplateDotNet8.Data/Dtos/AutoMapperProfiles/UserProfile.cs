@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using SimpleApiTemplate.Web.Dtos.Auth;
+using SimpleApiTemplateDotNet8.Data.Dtos.Auth;
 using SimpleApiTemplateDotNet8.Models.Auth;
 
-namespace SimpleApiTemplate.Web.Dtos.AutoMapperProfiles;
+namespace SimpleApiTemplateDotNet8.Data.Dtos.AutoMapperProfiles;
 
 public class UserProfile : Profile
 {

@@ -1,13 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Asn1.Ocsp;
-using SimpleApiTemplate.Web.Dtos.Auth;
+using SimpleApiTemplateDotNet8.Data.Dtos.Auth;
+using SimpleApiTemplateDotNet8.Services.Interfaces;
 
-namespace SimpleApiTemplate.Web.Services.Auth;
+namespace SimpleApiTemplateDotNet8.Services.Auth;
 
-public class JwtService
+public class JwtService : IJwtService
 {
     private IConfiguration _configuration;
 

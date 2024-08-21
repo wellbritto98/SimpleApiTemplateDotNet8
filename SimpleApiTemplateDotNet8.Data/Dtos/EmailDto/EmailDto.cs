@@ -1,4 +1,4 @@
-﻿namespace SimpleApiTemplate.Web.Dtos.EmailDto;
+﻿namespace SimpleApiTemplateDotNet8.Data.Dtos.EmailDto;
 
 public class EmailDto
 {
