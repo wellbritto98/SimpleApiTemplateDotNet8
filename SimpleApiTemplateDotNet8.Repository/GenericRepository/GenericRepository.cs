@@ -6,6 +6,10 @@ using System.Reflection;
 
 namespace SimpleApiTemplateDotNet8.Repository.GenericRepository;
 
+/// <summary>
+/// Classe genérica para repositórios que implementa operações CRUD.
+/// </summary>
+/// <typeparam name="T">O tipo da entidade que herda de BaseEntity.</typeparam>
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     protected readonly DataContext _context;
@@ -15,8 +19,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _context = context;
     }
 
-    //Funções Auxiliares
-    //Possibilita Joins dinamicos no banco de dados
+    /// <summary>
+    /// Adiciona os joins dinâmicos no banco de dados para carregar propriedades virtuais aninhadas.
+    /// </summary>
+    /// <typeparam name="T">O tipo da entidade.</typeparam>
+    /// <param name="query">A consulta sobre a qual os includes serão aplicados.</param>
+    /// <param name="property">A propriedade que deve ser incluída na consulta.</param>
+    /// <param name="currentPath">O caminho atual da propriedade, usado para incluir aninhamentos.</param>
+    /// <returns>A consulta com as propriedades virtuais incluídas.</returns>
     private IQueryable<T> IncludeNestedProperties<T>(IQueryable<T> query, PropertyInfo property, string currentPath = null) where T : class
     {
         // Verificar se a propriedade é virtual, se é uma classe e não é uma string
@@ -42,6 +52,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
         return query;
     }
+    /// <summary>
+    /// Obtém uma lista de propriedades virtuais de uma entidade, exceto coleções.
+    /// </summary>
+    /// <param name="entityType">O tipo da entidade.</param>
+    /// <returns>Uma lista de propriedades virtuais da entidade.</returns>
     private List<PropertyInfo> GetVirtualFields(Type entityType)
     {
         var entityProperties = entityType.GetProperties();
@@ -58,8 +73,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     }
 
 
-    //Métodos CRUD utilizados para todas as entidades
-    //Get All
+    /// <summary>
+    /// Obtém todas as entidades do banco de dados.
+    /// </summary>
+    /// <returns>Uma lista de todas as entidades.</returns>
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         try
@@ -90,7 +107,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         }
     }
 
-    //Get By Id (Retorna apenas 1, a entidade pode ter chave composta, não precisa ter apenas 1 numero de ID)
+    /// <summary>
+    /// Obtém uma entidade por seus valores chave.
+    /// </summary>
+    /// <param name="keyValues">Os valores chave da entidade.</param>
+    /// <returns>A entidade correspondente ou null se não encontrada.</returns>
     public async Task<T> GetByIdAsync(params object[] keyValues)
     {
         try
@@ -126,8 +147,32 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         }
     }
 
-    // Find retorna uma lista de entidades que atendem a um critério de pesquisa
-    // basicamente um filtro, que permite construção do Select no banco de dados de forma dinamica
+    /// <summary>
+    /// Encontra entidades que correspondem aos critérios fornecidos em JSON.
+    /// </summary>
+    /// <param name="json">
+    /// O JSON que contém os critérios de filtro. O formato esperado do JSON é um dicionário onde a chave é composta pelo nome do campo e o operador,
+    /// e o valor é o critério de comparação. O formato é:
+    /// 
+    /// {
+    ///     "campo@operador": "valor@tipoDoValor"
+    /// }
+    /// 
+    /// Exemplos:
+    /// 
+    /// - {"Nome@igual": "John Doe@System.String"}
+    /// - {"Idade@maior": "30@System.Int32"}
+    /// - {"DataDeNascimento@menorigual": "2000-01-01T00:00:00@System.DateTime"}
+    /// 
+    /// Operadores suportados:
+    /// - "igual": compara se o valor é igual ao campo.
+    /// - "diferente": compara se o valor é diferente do campo.
+    /// - "maior": compara se o valor é maior que o campo (suporta IComparable).
+    /// - "menor": compara se o valor é menor que o campo (suporta IComparable).
+    /// - "maiorigual": compara se o valor é maior ou igual ao campo (suporta IComparable).
+    /// - "menorigual": compara se o valor é menor ou igual ao campo (suporta IComparable).
+    /// </param>
+    /// <returns>Uma lista de entidades que atendem aos critérios de filtro.</returns>
     public async Task<IEnumerable<T>> FindAsync(string json)
     {
         try
@@ -252,7 +297,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     }
 
 
-    // Adiciona um registro no banco
+    /// <summary>
+    /// Adiciona uma nova entidade ao banco de dados.
+    /// </summary>
+    /// <param name="entity">A entidade a ser adicionada.</param>
+    /// <returns>A entidade adicionada.</returns>
     public virtual async Task<T> AddAsync(T entity)
     {
         _context.Set<T>().Add(entity);
@@ -260,7 +309,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         return entity;
     }
 
-    //Atualiza um registro no banco
+    /// <summary>
+    /// Atualiza uma entidade existente no banco de dados.
+    /// </summary>
+    /// <param name="entity">A entidade a ser atualizada.</param>
+    /// <returns>A entidade atualizada.</returns>
     public async Task<T> UpdateAsync(T entity)
     {
         try
@@ -277,7 +330,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     }
 
 
-    //Deleta um registro no banco
+    /// <summary>
+    /// Exclui uma entidade do banco de dados com base nos valores de chave fornecidos.
+    /// </summary>
+    /// <param name="keyValues">Os valores chave da entidade a ser excluída.</param>
     public async Task DeleteAsync(params object[] keyValues)
     {
         var entity = await _context.Set<T>().FindAsync(keyValues);
