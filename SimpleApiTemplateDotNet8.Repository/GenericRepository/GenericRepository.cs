@@ -116,30 +116,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         try
         {
-            var entityType = _context.Model.FindEntityType(typeof(T));
-            var keyProperties = entityType.FindPrimaryKey().Properties;
-            var virtualProperties = GetVirtualFields(typeof(T));
-
-            var query = _context.Set<T>().AsQueryable();
-
-            if (virtualProperties.Count > 0)
-            {
-                foreach (var property in virtualProperties)
-                {
-                    query = IncludeNestedProperties(query, property);
-                }
-            }
-
-            // Adicionar cláusula WHERE para as chaves primárias
-            for (int i = 0; i < keyProperties.Count; i++)
-            {
-                var keyName = keyProperties[i].Name;
-                // Converter o valor da chave primária para o tipo correto
-                var keyValue = Convert.ChangeType(keyValues[i], keyProperties[i].ClrType);
-                query = query.Where(e => EF.Property<object>(e, keyName).Equals(keyValue));
-            }
-
-            return await query.FirstOrDefaultAsync();
+        
+            return await _context.Set<T>().FindAsync(keyValues);
         }
         catch (Exception ex)
         {

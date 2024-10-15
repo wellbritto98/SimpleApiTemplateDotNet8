@@ -9,6 +9,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Controllers\Mail\**" />
+      <Compile Remove="Services\**" />
+      <Content Remove="Controllers\Mail\**" />
+      <Content Remove="Services\**" />
+      <EmbeddedResource Remove="Controllers\Mail\**" />
+      <EmbeddedResource Remove="Services\**" />
+      <None Remove="Controllers\Mail\**" />
+      <None Remove="Services\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="MailKit" Version="4.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
@@ -18,15 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controllers\Mail\" />
       <Folder Include="Migrations\" />
-      <Folder Include="Services\" />
     </ItemGroup>
 
     <ItemGroup>

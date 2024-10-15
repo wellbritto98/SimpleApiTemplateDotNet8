@@ -20,7 +20,7 @@ namespace SimpleApiTemplate.Web.Controllers.GenericController;
 /// <typeparam name="T2">DTO de inserção da entidade.</typeparam>
 /// <typeparam name="T3">DTO de leitura da entidade.</typeparam>
 /// <typeparam name="T4">DTO de atualização da entidade.</typeparam>
-public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseEntity where T2 : class where T3 : class where T4 : class
+public class GenericController<T1, T2, T3, T4, T5> : ControllerBase where T1 : BaseEntity where T2 : class where T3 : class where T4 : class where T5 : class
 {
     protected readonly IGenericService<T1> _service;
     protected readonly IMapper _mapper;
@@ -109,23 +109,29 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     /// }
     /// </param>
     /// <returns>O item correspondente da entidade.</returns>
-    [HttpGet("Get/{id}")]
+    [HttpGet("Get/")]
     [SwaggerOperation(Summary = "Retorna um item pelo ID.",
-        Description = "Esse endpoint permite a busca de um item no banco de dados através de sua chave primária, fornecida em formato JSON.")]
+       Description = "Esse endpoint permite a busca de um item no banco de dados através de sua chave primária, fornecida em formato JSON. " +
+       "ID do item no formato JSON. O JSON deve conter as chaves primárias necessárias da entidade no seguinte formato:" +
+       "{ \"Chave1\": \"Valor1\",\r\n\"Chave2\": \"Valor2\" }")]
     [ProducesResponseType(StatusCodes.Status200OK)]  // Removido o uso de tipos genéricos nos atributos
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerRequestExample(typeof(string), typeof(ExampleId))]
-    public async Task<ActionResult<T3>> Get(string id)
+    public async Task<ActionResult<T3>> Get([FromQuery] T5 queryParam)
     {
         try
         {
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(id);
-            object[] keyValues = dict.Values.ToArray();
+            // Extrair os valores das propriedades de T5 e passá-los como parâmetros para a consulta
+            var keyValues = queryParam.GetType().GetProperties()
+                                      .Select(p => p.GetValue(queryParam))
+                                      .ToArray();
 
+            // Chamar o serviço para buscar a entidade pelo ID composto
             var entity = await _service.GetByIdAsync(keyValues);
             if (entity == null) return NotFound();
 
+            // Retornar o DTO mapeado da entidade
             return Ok(_mapper.Map<T3>(entity));
         }
         catch (Exception ex)
@@ -177,19 +183,29 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     /// <returns>Mensagem de sucesso ou erro.</returns>
     [HttpPut("Update")]
     [SwaggerOperation(Summary = "Altera informações de um item pelo ID.",
-        Description = "Atualiza um item existente no banco de dados através de sua chave primária fornecida em formato JSON.")]
+       Description = "Atualiza um item existente no banco de dados através de sua chave primária fornecida em formato JSON." +
+       "ID do item no formato JSON. O JSON deve conter as chaves primárias necessárias da entidade no seguinte formato:" +
+       "{ \"Chave1\": \"Valor1\",\r\n\"Chave2\": \"Valor2\" }")]
     [ProducesResponseType(StatusCodes.Status200OK)]  // Removido o uso de tipos genéricos nos atributos
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerRequestExample(typeof(string), typeof(ExampleId))]
-    public async Task<ActionResult> Put([FromQuery] string id, T4 dto)
+    public async Task<ActionResult> Put([FromQuery] T5 queryParam, T4 dto)
     {
         try
         {
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(id);
-            object[] keyValues = dict.Values.ToArray();
-            var entity = await _service.GetByIdAsync(keyValues);
+            // Extrair as chaves dos parâmetros de query
+            object[] keyValues = queryParam.GetType().GetProperties()
+                                          .Select(p => p.GetValue(queryParam))
+                                          .ToArray();
 
+            // Buscar a entidade existente pelas chaves compostas
+            var entity = await _service.GetByIdAsync(keyValues);
+            if (entity == null) return NotFound("Entidade não encontrada");
+
+            // Mapear as atualizações do DTO para a entidade
             var mappedEntity = _mapper.Map(dto, entity);
+
+            // Atualizar a entidade
             await _service.UpdateAsync(mappedEntity);
 
             return Ok("Atualizado com sucesso");
@@ -199,6 +215,7 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
             return BadRequest(ex.Message);
         }
     }
+
 
     /// <summary>
     /// Exclui um item pelo ID.
@@ -218,17 +235,22 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
     /// <returns>Mensagem de sucesso ou erro.</returns>
     [HttpDelete("Delete")]
     [SwaggerOperation(Summary = "Deleta um item pelo ID.",
-        Description = "Exclui um item no banco de dados através de sua chave primária fornecida em formato JSON.")]
+         Description = "Exclui um item no banco de dados através de sua chave primária fornecida em formato JSON." +
+         "ID do item no formato JSON. O JSON deve conter as chaves primárias necessárias da entidade no seguinte formato:" +
+         "{ \"Chave1\": \"Valor1\",\r\n\"Chave2\": \"Valor2\" }")]
     [ProducesResponseType(StatusCodes.Status200OK)]  // Removido o uso de tipos genéricos nos atributos
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerRequestExample(typeof(string), typeof(ExampleId))]
-    public async Task<IActionResult> Delete([FromQuery] string id)
+    public async Task<IActionResult> Delete([FromQuery] T5 queryParam)
     {
         try
         {
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(id);
-            object[] keyValues = dict.Values.ToArray();
+            // Extrair as chaves dos parâmetros de query
+            object[] keyValues = queryParam.GetType().GetProperties()
+                                        .Select(p => p.GetValue(queryParam))
+                                        .ToArray();
 
+            // Chamar o serviço para deletar a entidade pelas chaves compostas
             await _service.DeleteAsync(keyValues);
             return Ok("Deletado com sucesso");
         }
@@ -237,7 +259,9 @@ public class GenericController<T1, T2, T3, T4> : ControllerBase where T1 : BaseE
             return BadRequest(ex.Message);
         }
     }
+
 }
+
 
 /// <summary>
 /// Classe de exemplo para o JSON de filtros em Find.
