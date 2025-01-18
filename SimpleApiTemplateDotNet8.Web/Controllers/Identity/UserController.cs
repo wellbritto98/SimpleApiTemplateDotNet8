@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimpleApiTemplateDotNet8.Data.Dtos.Auth;
 using SimpleApiTemplateDotNet8.Services.Interfaces;
 
-namespace SimpleApiTemplate.Web.Controllers.Identity;
+namespace SimpleApiTemplateDotNet8.Web.Controllers.Identity;
 
 public class UserController : ControllerBase
 {

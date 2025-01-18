@@ -9,11 +9,11 @@ using SimpleApiTemplateDotNet8.Data;
 
 #nullable disable
 
-namespace SimpleApiTemplate.Migrations
+namespace SimpleApiTemplateDotNet8.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240620142849_seeders")]
-    partial class seeders
+    [Migration("20250117204136_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,62 +154,62 @@ namespace SimpleApiTemplate.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d747ba12-5c2a-4c1e-bd49-2a898f4e3e6e",
+                            UserId = "cce00265-37b5-42c4-98f0-5d0b11595552",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "2a4350fd-0cb6-47c1-8adb-c90b3c719455",
+                            UserId = "19b75c0c-5563-4bcf-9ece-10f5a4ffc433",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "d04bb1c2-0e0a-425e-a14e-c47f6fa38eca",
+                            UserId = "33ec9202-94e0-4435-8357-dfc2c475b50f",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "639f3e9c-4b84-4947-ae02-d8a69411d757",
+                            UserId = "2e0c5469-fcba-43d9-9a2e-eb94e842e9df",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "2990af37-64f8-4c15-ba1d-47207887fa07",
+                            UserId = "7e21598a-9228-4dd9-8688-30c61f6fd115",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "56fd83e3-72bf-4e16-803c-6fcc401e5a9f",
+                            UserId = "55a0ebd4-af5f-420a-85e0-3c7026caca02",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "97c7edad-56a5-4f30-883d-1bb504a3fbbc",
+                            UserId = "304a26af-4eda-43a8-9eed-8c9620ccaa4f",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "854970b5-1f8d-4ded-9a9a-234b8c2b42f0",
+                            UserId = "3618b850-e9ce-48ff-a090-b78591cc3bbd",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "e7b5b4f0-ef6a-410a-ac05-e3ea0ba81e72",
+                            UserId = "357be577-9a05-4f2f-ba77-dedadb5cd480",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "e26de384-d6f2-4c3e-a9bc-edd58687a69e",
+                            UserId = "35eab76f-0ca0-4acd-bce4-e7c68f625e01",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "e45b3bb8-4d83-48b5-a583-c1a87e76c34a",
+                            UserId = "33d0e646-75af-4a07-ae7f-3cb912901191",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         },
                         new
                         {
-                            UserId = "d4749bfa-dad3-4700-9fc5-25c046529295",
+                            UserId = "ab0148ad-552a-478e-86a2-9e08ba4d3a72",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
                         });
                 });
@@ -233,11 +233,365 @@ namespace SimpleApiTemplate.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SimpleApiTemplate.Models.ExampleEntity", b =>
+            modelBuilder.Entity("SimpleApiTemplateDotNet8.Models.Auth.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Nickname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RegisteredAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("TokenCreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("TokenExpiredAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cce00265-37b5-42c4-98f0-5d0b11595552",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d83fe92d-b776-454d-bf3f-4dcf663a2b05",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user1@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 1",
+                            NormalizedEmail = "USER1@EXAMPLE.COM",
+                            NormalizedUserName = "USER1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE0EqjmQyLKg8prhAHSlYhFGN92ofQq1bZwe2gK/PtWd3EePuuAP5HEukaZYiy1vdg==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 34, 701, DateTimeKind.Local).AddTicks(2898),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user1"
+                        },
+                        new
+                        {
+                            Id = "19b75c0c-5563-4bcf-9ece-10f5a4ffc433",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c3baecdc-e6a5-42e6-ae98-f262f47d1386",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user2@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 2",
+                            NormalizedEmail = "USER2@EXAMPLE.COM",
+                            NormalizedUserName = "USER2",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDG3+xXhG+ELA7CUzJ9StTKU1zlvjiCfJJ185JNQOFdN11LGG49pFJOFFXAOffsWdw==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 34, 775, DateTimeKind.Local).AddTicks(1212),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user2"
+                        },
+                        new
+                        {
+                            Id = "33ec9202-94e0-4435-8357-dfc2c475b50f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7a2ac06c-5813-4c93-bbe4-2e7335260cbf",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user3@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 3",
+                            NormalizedEmail = "USER3@EXAMPLE.COM",
+                            NormalizedUserName = "USER3",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJnJ00KXQ4bSWanutPPKi0NTHn6rI0l2X933FdZVXZJdNitpctsHqZdVirkpViseXg==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 34, 839, DateTimeKind.Local).AddTicks(7165),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user3"
+                        },
+                        new
+                        {
+                            Id = "2e0c5469-fcba-43d9-9a2e-eb94e842e9df",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "74102ff7-2830-4ff6-9e43-7437dc3f5a9c",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user4@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 4",
+                            NormalizedEmail = "USER4@EXAMPLE.COM",
+                            NormalizedUserName = "USER4",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPaZT09OETV4dfyZ3ouYDOTsaZwHhmGBdtLSlKGFgbSBpbwup9XMpXGykhFhn5CYDQ==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 34, 917, DateTimeKind.Local).AddTicks(6992),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user4"
+                        },
+                        new
+                        {
+                            Id = "7e21598a-9228-4dd9-8688-30c61f6fd115",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4825edc1-588c-4eeb-9686-b347d4b46842",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user5@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 5",
+                            NormalizedEmail = "USER5@EXAMPLE.COM",
+                            NormalizedUserName = "USER5",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPQ5kWMZYJZuBsamUzSli+FBQpsLYQfCT5caFdZ90nfChdKcd/7r2DnvAkLUaJ+2zg==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 34, 995, DateTimeKind.Local).AddTicks(2853),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user5"
+                        },
+                        new
+                        {
+                            Id = "55a0ebd4-af5f-420a-85e0-3c7026caca02",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "42171438-55b2-4c43-8f38-e6ce718763aa",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user6@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 6",
+                            NormalizedEmail = "USER6@EXAMPLE.COM",
+                            NormalizedUserName = "USER6",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKiDN1CkBY7qOuxpbC4+ZmL0mrMLTa4ujQ7LkhRB/lQugPQcEPv2eVbCk3zTZz3GTQ==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 74, DateTimeKind.Local).AddTicks(2596),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user6"
+                        },
+                        new
+                        {
+                            Id = "304a26af-4eda-43a8-9eed-8c9620ccaa4f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "80b631c6-08b0-4f31-b843-6eb5f6bb4bc2",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user7@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 7",
+                            NormalizedEmail = "USER7@EXAMPLE.COM",
+                            NormalizedUserName = "USER7",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAaTxSjoPQ/im3NDS+HXigJ7j5bTiFA6xEGxsYrQYd0ktGy4gwJmkIt4kqkKcU7ohg==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 145, DateTimeKind.Local).AddTicks(9125),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user7"
+                        },
+                        new
+                        {
+                            Id = "3618b850-e9ce-48ff-a090-b78591cc3bbd",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "42c89af6-c239-4578-9a5e-53780049316c",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user8@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 8",
+                            NormalizedEmail = "USER8@EXAMPLE.COM",
+                            NormalizedUserName = "USER8",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB0MCLxWDiNadpTiPWmf3zwFpe2A2c4Cdmh/KbSj7VkIni2t+k+8WT+HlmKBAcIMOQ==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 212, DateTimeKind.Local).AddTicks(2961),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user8"
+                        },
+                        new
+                        {
+                            Id = "357be577-9a05-4f2f-ba77-dedadb5cd480",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2af83759-150b-4a74-8146-f1d04eaba861",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user9@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 9",
+                            NormalizedEmail = "USER9@EXAMPLE.COM",
+                            NormalizedUserName = "USER9",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKSNZ7eG3jvZ7JI1jHxikVPHohxuJA3+ASQtNW8oBnJS8N0mCFNjLZ41sukglXXbNw==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 275, DateTimeKind.Local).AddTicks(3049),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user9"
+                        },
+                        new
+                        {
+                            Id = "35eab76f-0ca0-4acd-bce4-e7c68f625e01",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e495f5f4-2c76-4636-b77f-7635119b3119",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user10@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 10",
+                            NormalizedEmail = "USER10@EXAMPLE.COM",
+                            NormalizedUserName = "USER10",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL5dhGSqf0Xxf9Rz8+bTxyHSXehz6Yj0ZRpzS7jAGI9o43rFw7NW/Ql5S/TefkNMUg==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 351, DateTimeKind.Local).AddTicks(6158),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user10"
+                        },
+                        new
+                        {
+                            Id = "33d0e646-75af-4a07-ae7f-3cb912901191",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b103b571-ac35-455e-976d-fa96a4868b75",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user11@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 11",
+                            NormalizedEmail = "USER11@EXAMPLE.COM",
+                            NormalizedUserName = "USER11",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMWU4erfCuwHqXSYMTcrgwfJz3PDkB6o2zBYsZWX8qjcJerSeCLvYfRQVMSZuZU9/g==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 417, DateTimeKind.Local).AddTicks(3112),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user11"
+                        },
+                        new
+                        {
+                            Id = "ab0148ad-552a-478e-86a2-9e08ba4d3a72",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "10c79e28-80db-45af-b056-f9c1b2b93966",
+                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user12@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nickname = "User 12",
+                            NormalizedEmail = "USER12@EXAMPLE.COM",
+                            NormalizedUserName = "USER12",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPSU1lSui2dXrXIp9OIBzqLla7eH80ZOksg9h8Caf+kH11wFcbvxblUJK9aLLrMohA==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "",
+                            RegisteredAt = new DateTime(2025, 1, 17, 17, 41, 35, 602, DateTimeKind.Local).AddTicks(2952),
+                            SecurityStamp = "",
+                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "user12"
+                        });
+                });
+
+            modelBuilder.Entity("SimpleApiTemplateDotNet8.Models.ExampleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnOrder(0);
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -343,356 +697,171 @@ namespace SimpleApiTemplate.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SimpleApiTemplate.Models.User", b =>
+            modelBuilder.Entity("SimpleApiTemplateDotNet8.Models.Medication", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<decimal>("DoseMaxima")
+                        .HasColumnType("numeric");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                    b.Property<decimal>("DoseMinima")
+                        .HasColumnType("numeric");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
+                    b.Property<decimal>("DosegemMaxima")
+                        .HasColumnType("numeric");
 
-                    b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<int>("EmbalagemMl")
+                        .HasColumnType("integer");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
+                    b.Property<int>("IntervaloHoras")
+                        .HasColumnType("integer");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Nickname")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("RefreshToken")
+                    b.Property<string>("ViaAdministracao")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("RegisteredAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("TokenCreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("TokenExpiredAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Medications");
 
                     b.HasData(
                         new
                         {
-                            Id = "d747ba12-5c2a-4c1e-bd49-2a898f4e3e6e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c5551ef-5d4d-4295-a9ad-e6339e494982",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user1@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 1",
-                            NormalizedEmail = "USER1@EXAMPLE.COM",
-                            NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM+4NDBQmvyBo/wtOOZCBfhABVoWWJ8XaOSGLM0+5cTo9YBzCAT4RMlG/aKO0sQKmg==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 47, 996, DateTimeKind.Local).AddTicks(63),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user1"
+                            Id = 1,
+                            DoseMaxima = 5m,
+                            DoseMinima = 1m,
+                            DosegemMaxima = 10m,
+                            EmbalagemMl = 100,
+                            IntervaloHoras = 2,
+                            Nome = "Medication1",
+                            ViaAdministracao = "Via Administracao 1"
                         },
                         new
                         {
-                            Id = "2a4350fd-0cb6-47c1-8adb-c90b3c719455",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d5d1888-e1d9-4af3-a9b3-ea92fe9e870c",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user2@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 2",
-                            NormalizedEmail = "USER2@EXAMPLE.COM",
-                            NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKG3bYsM9X9G1YEJ7nPCr6oyaEy18B8R4e5SHXSqAR5i3Da985tu2upWKFGALVruMQ==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 56, DateTimeKind.Local).AddTicks(3200),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user2"
+                            Id = 2,
+                            DoseMaxima = 5m,
+                            DoseMinima = 1m,
+                            DosegemMaxima = 10m,
+                            EmbalagemMl = 100,
+                            IntervaloHoras = 2,
+                            Nome = "Medication2",
+                            ViaAdministracao = "Via Administracao 2"
                         },
                         new
                         {
-                            Id = "d04bb1c2-0e0a-425e-a14e-c47f6fa38eca",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e228d2b7-eef5-46f2-a4c1-3d2ab3ab99a4",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user3@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 3",
-                            NormalizedEmail = "USER3@EXAMPLE.COM",
-                            NormalizedUserName = "USER3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI453gv+nmSV/Ki7+8UUcwUClOJUJef4DltGvvrO1JiHDrkCjmLdz+dokFA+DCqHDQ==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 113, DateTimeKind.Local).AddTicks(7790),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user3"
+                            Id = 3,
+                            DoseMaxima = 5m,
+                            DoseMinima = 1m,
+                            DosegemMaxima = 10m,
+                            EmbalagemMl = 100,
+                            IntervaloHoras = 2,
+                            Nome = "Medication3",
+                            ViaAdministracao = "Via Administracao 3"
                         },
                         new
                         {
-                            Id = "639f3e9c-4b84-4947-ae02-d8a69411d757",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "faf2996d-3075-49d7-9233-7c2897fbbae3",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user4@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 4",
-                            NormalizedEmail = "USER4@EXAMPLE.COM",
-                            NormalizedUserName = "USER4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKn40b8zyN8LELJFDX7gXao+a1LrPGEmUkKwFZCZ1ij6R0eiQ1awQratpvPsJSGPWg==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 180, DateTimeKind.Local).AddTicks(5497),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user4"
+                            Id = 4,
+                            DoseMaxima = 5m,
+                            DoseMinima = 1m,
+                            DosegemMaxima = 10m,
+                            EmbalagemMl = 100,
+                            IntervaloHoras = 2,
+                            Nome = "Medication4",
+                            ViaAdministracao = "Via Administracao 4"
+                        });
+                });
+
+            modelBuilder.Entity("SimpleApiTemplateDotNet8.Models.ModeloReceituario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("EnderecoInstituicao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ImagemInstituicao")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("NomeInstituicao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NomePaciente")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NomeProfissional")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Receita")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ModeloReceituarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Data = new DateTime(2025, 1, 17, 17, 41, 34, 629, DateTimeKind.Local).AddTicks(2729),
+                            EnderecoInstituicao = "Endereco Instituicao 1",
+                            ImagemInstituicao = new byte[] { 32, 32, 32, 32 },
+                            NomeInstituicao = "Nome Instituicao 1",
+                            NomePaciente = "Nome Paciente 1",
+                            NomeProfissional = "Nome Profissional 1",
+                            Receita = "Receita 1"
                         },
                         new
                         {
-                            Id = "2990af37-64f8-4c15-ba1d-47207887fa07",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a93ee791-61f1-4a2b-9dc9-5016ae5fe258",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user5@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 5",
-                            NormalizedEmail = "USER5@EXAMPLE.COM",
-                            NormalizedUserName = "USER5",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE5lok8cOs53Fb7LPRdPkhN597bu1qJvSt6P+pT3eb47uFl6p2htKPv4FbEyz2k0uA==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 244, DateTimeKind.Local).AddTicks(1674),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user5"
+                            Id = 2,
+                            Data = new DateTime(2025, 1, 17, 17, 41, 34, 629, DateTimeKind.Local).AddTicks(2784),
+                            EnderecoInstituicao = "Endereco Instituicao 2",
+                            ImagemInstituicao = new byte[] { 32, 32, 32, 32 },
+                            NomeInstituicao = "Nome Instituicao 2",
+                            NomePaciente = "Nome Paciente 2",
+                            NomeProfissional = "Nome Profissional 2",
+                            Receita = "Receita 2"
                         },
                         new
                         {
-                            Id = "56fd83e3-72bf-4e16-803c-6fcc401e5a9f",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b8bc6ab8-c688-4a5e-b02b-4401cecea17c",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user6@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 6",
-                            NormalizedEmail = "USER6@EXAMPLE.COM",
-                            NormalizedUserName = "USER6",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF+wJ5XBoCneNciPuNW54DK855V40bsUuQ44pfM0EFS7YHioFkhu0stsvui+/FeOcg==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 314, DateTimeKind.Local).AddTicks(7699),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user6"
+                            Id = 3,
+                            Data = new DateTime(2025, 1, 17, 17, 41, 34, 629, DateTimeKind.Local).AddTicks(2865),
+                            EnderecoInstituicao = "Endereco Instituicao 3",
+                            ImagemInstituicao = new byte[] { 32, 32, 32, 32 },
+                            NomeInstituicao = "Nome Instituicao 3",
+                            NomePaciente = "Nome Paciente 3",
+                            NomeProfissional = "Nome Profissional 3",
+                            Receita = "Receita 3"
                         },
                         new
                         {
-                            Id = "97c7edad-56a5-4f30-883d-1bb504a3fbbc",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "716b9b40-e70c-41ce-8e4c-92b1536711ab",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user7@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 7",
-                            NormalizedEmail = "USER7@EXAMPLE.COM",
-                            NormalizedUserName = "USER7",
-                            PasswordHash = "AQAAAAIAAYagAAAAELXXMoUIB0Wt0u8CIh1FRdVD+djqTMBKleb0fqyTWFNkPpt8EsZkhv0GHV55rK+k3g==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 392, DateTimeKind.Local).AddTicks(6326),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user7"
-                        },
-                        new
-                        {
-                            Id = "854970b5-1f8d-4ded-9a9a-234b8c2b42f0",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a0eb5e1-45d9-45b3-a244-389dd8d3a734",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user8@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 8",
-                            NormalizedEmail = "USER8@EXAMPLE.COM",
-                            NormalizedUserName = "USER8",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAOJwJ57kV7K3971WTR7z1ntjEUCq5pbKSOLZaKfLqHdluFuQi6LpPBbrTUJ4w8ZLw==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 463, DateTimeKind.Local).AddTicks(713),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user8"
-                        },
-                        new
-                        {
-                            Id = "e7b5b4f0-ef6a-410a-ac05-e3ea0ba81e72",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd6a2d45-cb3b-48d5-a3fb-43d3eab0ae98",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user9@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 9",
-                            NormalizedEmail = "USER9@EXAMPLE.COM",
-                            NormalizedUserName = "USER9",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBhDT3G29vMe7zeDhakg36FBzGMDBJ86l1A+4HOkkuChmp3c8wq5z8JO4OodVgOA0A==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 521, DateTimeKind.Local).AddTicks(5975),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user9"
-                        },
-                        new
-                        {
-                            Id = "e26de384-d6f2-4c3e-a9bc-edd58687a69e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "96ff05d5-dcba-4d9d-b0df-0b43b7224eed",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user10@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 10",
-                            NormalizedEmail = "USER10@EXAMPLE.COM",
-                            NormalizedUserName = "USER10",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG45r4rVgax3Y2vx5m2spRwX77DRdSrwNpZehhX1vuJKvUVXngjF/GaYBeIhvtMVrg==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 578, DateTimeKind.Local).AddTicks(4862),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user10"
-                        },
-                        new
-                        {
-                            Id = "e45b3bb8-4d83-48b5-a583-c1a87e76c34a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a7b12ccd-4ba0-4cd9-81d5-ddac4139e096",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user11@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 11",
-                            NormalizedEmail = "USER11@EXAMPLE.COM",
-                            NormalizedUserName = "USER11",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMSFpI2hiio7O4EsJz5BSmcdoteqPYJBlp9L4oRv1RcB9dUfpva0F79bR3xswT0Tsw==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 639, DateTimeKind.Local).AddTicks(5382),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user11"
-                        },
-                        new
-                        {
-                            Id = "d4749bfa-dad3-4700-9fc5-25c046529295",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9b030d55-34b8-4938-a0d9-343f28e5b152",
-                            DataNascimento = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user12@example.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nickname = "User 12",
-                            NormalizedEmail = "USER12@EXAMPLE.COM",
-                            NormalizedUserName = "USER12",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGDVPlLpkQ1KOxbhltixChKnLwtazp1BFzwlInprqFBa3pk4kSnaJ2/a/5uyeES7wg==",
-                            PhoneNumberConfirmed = false,
-                            RefreshToken = "",
-                            RegisteredAt = new DateTime(2024, 6, 20, 11, 28, 48, 702, DateTimeKind.Local).AddTicks(295),
-                            SecurityStamp = "",
-                            TokenCreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TokenExpiredAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "user12"
+                            Id = 4,
+                            Data = new DateTime(2025, 1, 17, 17, 41, 34, 629, DateTimeKind.Local).AddTicks(2897),
+                            EnderecoInstituicao = "Endereco Instituicao 4",
+                            ImagemInstituicao = new byte[] { 32, 32, 32, 32 },
+                            NomeInstituicao = "Nome Instituicao 4",
+                            NomePaciente = "Nome Paciente 4",
+                            NomeProfissional = "Nome Profissional 4",
+                            Receita = "Receita 4"
                         });
                 });
 
@@ -707,7 +876,7 @@ namespace SimpleApiTemplate.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SimpleApiTemplate.Models.User", null)
+                    b.HasOne("SimpleApiTemplateDotNet8.Models.Auth.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -716,7 +885,7 @@ namespace SimpleApiTemplate.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SimpleApiTemplate.Models.User", null)
+                    b.HasOne("SimpleApiTemplateDotNet8.Models.Auth.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -731,7 +900,7 @@ namespace SimpleApiTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SimpleApiTemplate.Models.User", null)
+                    b.HasOne("SimpleApiTemplateDotNet8.Models.Auth.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -740,7 +909,7 @@ namespace SimpleApiTemplate.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SimpleApiTemplate.Models.User", null)
+                    b.HasOne("SimpleApiTemplateDotNet8.Models.Auth.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

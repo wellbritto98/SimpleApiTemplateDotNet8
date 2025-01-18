@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using SimpleApiTemplateDotNet8.Models;
 using SimpleApiTemplateDotNet8.Repository.Interfaces;
-using SimpleApiTemplate.Web.Controllers.GenericController;
+using SimpleApiTemplateDotNet8.Web.Controllers.GenericController;
 using SimpleApiTemplateDotNet8.Data.Dtos;
 using SimpleApiTemplateDotNet8.Services.Interfaces;
 
-namespace SimpleApiTemplate.Web.Controllers;
+namespace SimpleApiTemplateDotNet8.Web.Controllers;
 public class ExampleQueryParams
 {
     public int Id { get; set; }

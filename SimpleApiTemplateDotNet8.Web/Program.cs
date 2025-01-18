@@ -1,4 +1,5 @@
 using System.Security.Claims;
+
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -42,7 +43,12 @@ var secretKey = builder.Configuration["JwtConfig:Secret"];
 //using POstgreSQL
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    x => x.MigrationsAssembly("SimpleApiTemplateDotNet8.Web")
+);
+
+   
 });
 
 builder.Services.AddAuthentication(options =>
@@ -60,6 +66,8 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero, 
     };
 });
+
+
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddRoles<IdentityRole>()
@@ -73,6 +81,10 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IExampleService, ExampleService>();
+builder.Services.AddScoped<IModeloReceituarioService, ModeloReceituarioService>();
+builder.Services.AddScoped<IModeloReceituarioRepository, ModeloReceituarioRepository>();
+builder.Services.AddScoped<IMedicationService, MedicationService>();
+builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.Configure<IdentityOptions>(options =>
@@ -84,6 +96,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
     
 });
+
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
@@ -98,4 +111,5 @@ app.UseAuthorization();
 app.MapIdentityApi<User>();
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.Run();

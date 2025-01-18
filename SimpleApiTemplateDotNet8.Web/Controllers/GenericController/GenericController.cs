@@ -8,7 +8,7 @@ using SimpleApiTemplateDotNet8.Services.GenericService;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace SimpleApiTemplate.Web.Controllers.GenericController;
+namespace SimpleApiTemplateDotNet8.Web.Controllers.GenericController;
 
 [ApiController]
 [Route("api/[controller]")]

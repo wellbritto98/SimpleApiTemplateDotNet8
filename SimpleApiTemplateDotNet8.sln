@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleApiTemplate.Web", "SimpleApiTemplate\SimpleApiTemplate.Web.csproj", "{C0753306-0DB2-469F-8D46-4E2A8068C2DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleApiTemplateDotNet8.Web", "SimpleApiTemplateDotNet8.Web\SimpleApiTemplateDotNet8.Web.csproj", "{C0753306-0DB2-469F-8D46-4E2A8068C2DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleApiTemplateDotNet8.Models", "SimpleApiTemplateDotNet8.Models\SimpleApiTemplateDotNet8.Models.csproj", "{57D9FC82-0E41-494A-9E16-337F87872E57}"
 EndProject
